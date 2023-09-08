@@ -9,12 +9,12 @@ const jwt = require('jsonwebtoken')
 const getRegister = asyncHandler(async(req, res) => {
     const {email, password, userName} = req.body
     if (!email || !password || !userName) {
-        res.status(400).json({message: 'wrong params'})
+        res.status(200).json({message: 'wrong params', code: 400})
         return
     }
     const contacts = await User.findOne({email});
     if (contacts) {
-        res.status(400).json({message: 'email exists'})
+        res.status(200).json({message: 'email exists', code:400})
         return
     }
     const hashPassword = await bcrypt.hash(password, 10)
@@ -25,6 +25,7 @@ const getRegister = asyncHandler(async(req, res) => {
     })
     if (user) {
         res.status(200).json({
+            code:200,
             message: 'userCreated Successfully'
         })
     }
@@ -37,15 +38,19 @@ const getRegister = asyncHandler(async(req, res) => {
 const getLogin = asyncHandler( async(req, res) => {
     const {email, password} = req.body
     if (!email || !password) {
-        res.status(400).json({
-            message: 'password and email is necessary'
+        res.status(200).json({
+            code:400,
+            message: 'password and email is necessary',
+            data: null
         })
         return
     }
     const user = await User.findOne({email})
     if (!user) {
-        res.status(400).json({
-            message: 'user not exist'
+        res.status(200).json({
+            code:400,
+            message: 'user not exist',
+            data: null
         })
         return
     }
@@ -59,8 +64,8 @@ const getLogin = asyncHandler( async(req, res) => {
             },
         },
         '123123',
-        {expiresIn: '10m'})
-        res.status(200).json({message: 'login user', token: accessToken})
+        {expiresIn: '10h'})
+        res.status(200).json({message: 'login user', data: {token: accessToken}, code: 200})
     } else {
         res.status(400)
     }

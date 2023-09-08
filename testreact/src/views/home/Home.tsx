@@ -10,7 +10,7 @@ const Home = () => {
             onMouseOver ={() =>ChangeTest('我你爷')} 
             onMouseLeave ={() =>ChangeTest('我你爹')}>
             <div className="shadowText">{'我你爷'}</div>
-            <div className="textContan">{'我你爹'}</div>
+            <div className="textContan">{text}</div>
             <div className="buttonTopBorder"></div>
             <div className="buttonBottomBorder"></div>
             <div className="buttonLeftBorder"></div>
