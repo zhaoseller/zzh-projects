@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import DropDownMenu from '@/components/DropDownMenu.tsx'
-import React, {useState} from "react";
+import React, { useState} from "react";
 import menuTotal from './MenuLists'
+import  styled from 'styled-components'
 
 const Header = () => {
     const navigate = useNavigate();
@@ -29,7 +30,9 @@ const Header = () => {
       y: 0
     })
     const [showFlag, setflag] = useState(false)
-    const [innerContext, setinnerContext] = useState([])
+    const [innerContext, setinnerContext] = useState<{
+      label: string,
+      url: string}[]>([])
     const closeSubMenu = () => {
       setflag(false)
     }
@@ -44,25 +47,50 @@ const Header = () => {
     }
     const handleChildJump = (url:string):void => {
       navigate(url)
-    } 
+    }
+    const [menuFlag, showMenuFlag] = useState(false)
+  interface DropdownMenuContainProps {
+    $paramx: number,
+    $paramy: number,
+    $showFlag: boolean,
+  }
+  const DropdownMenuContain = styled.div<DropdownMenuContainProps>`
+      display: ${(props) => (!props.$showFlag ? 'none' : 'initial')};
+      position: absolute;
+      z-index: 999;
+      left: ${props => props.$paramx}px;
+      top: ${props => props.$paramy + 12.8}px;
+      `
     return (
         <div>
             <div className='brand'>BUBAILAN</div>
             <div className='menuContainer'>
                 {menuItem.map(el => {
                 return(
-                <div key={el.name} onClick={handleMenuClick(el.url)} className='subMenu' onMouseOver={(e) => openSubMenu(el.name, e)} onMouseLeave={closeSubMenu}>
+                <div key={el.name} 
+                onClick={handleMenuClick(el.url)} 
+                className='subMenu' 
+                onMouseEnter={(e) => openSubMenu(el.name, e)} 
+                onMouseLeave={closeSubMenu}>
                     <span>{el.name}</span>
                 </div>
                 )
             })}
             </div>
-            <DropDownMenu 
-            showFlag={showFlag}
-            innerContext={innerContext}
-            positionParams={positionParams}
-            handleChildJump={handleChildJump}
-            />
+            <DropdownMenuContain
+              $paramx={positionParams.x}
+              $paramy={positionParams.y}
+              $showFlag={showFlag || menuFlag}
+              onMouseEnter={() => showMenuFlag(true)}
+              onMouseLeave={() => showMenuFlag(false)}
+            >
+                <DropDownMenu 
+                showFlag={showFlag}
+                innerContext={innerContext}
+                positionParams={positionParams}
+                handleChildJump={handleChildJump}
+                />
+            </DropdownMenuContain>
       </div>
     )
 }

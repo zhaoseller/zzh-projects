@@ -4,12 +4,8 @@ interface menuListType {
     url: string
 }
 
-interface menuContain {
-    'SHOP BY SCENT': menuListType[]
-    'SHOP BY PRODUCT': menuListType[]
-    'ABOUT': menuListType[]
-    'STORE': menuListType[]
-    'WHOLESALE': menuListType[]
+export interface menuContain {
+    [propName:string]: menuListType[]
 }
 
 const menuTotal: menuContain = {
@@ -130,6 +126,6 @@ const menuTotal: menuContain = {
             label: 'wholesale',
             url: '/wholesale'
         }
-    ],
+    ]
 }
 export default menuTotal

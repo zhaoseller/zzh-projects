@@ -1,15 +1,13 @@
 import {useState} from "react";
 
 const Home = () => {
-    const [text, changeText] = useState('我你爹')
-    const ChangeTest = (text:string) => {
-        changeText(text)
-    }
+    const [text] = useState('123')
+    // const ChangeTest = (text:string) => {
+    //     changeText(text)
+    // }
     return(<div className="test" style={{height:'10px'}}>
-        <button className="buttonTest" 
-            onMouseOver ={() =>ChangeTest('我你爷')} 
-            onMouseLeave ={() =>ChangeTest('我你爹')}>
-            <div className="shadowText">{'我你爷'}</div>
+        <button className="buttonTest" >
+            <div className="shadowText"><span>{'321'}</span></div>
             <div className="textContan">{text}</div>
             <div className="buttonTopBorder"></div>
             <div className="buttonBottomBorder"></div>

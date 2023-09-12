@@ -20,37 +20,16 @@ interface stateI {
   message: number,
   menuFlag: boolean
 }
+
 export default class DropDownMenu extends Component<propsI, stateI> {
   constructor(props: propsI) {
-    super(props)
+    super(props)  
     this.state = {
       message: 1,
       menuFlag: false
     };
   }
-  private showMenuFlag = ():void => {
-    this.setState(() => ({
-      menuFlag: true
-    }))
-  }
-  private closeMenuFlag = ():void => {    
-    this.setState(() => ({
-      menuFlag: false
-    }))
-  }
   public render() {
-    interface DropdownMenuContainProps {
-      $paramx: number,
-      $paramy: number,
-      $showFlag: boolean,
-    }
-    const DropdownMenuContain = styled.div<DropdownMenuContainProps>`
-        display: ${(props) => (!props.$showFlag ? 'none' : 'initial')};
-        position: absolute;
-        z-index: 999;
-        left: ${props => props.$paramx}px;
-        top: ${props => props.$paramy + 12.8}px;
-        `
     const DropdownBody = styled.ul`
         columns: 2;
         background: white;
@@ -67,20 +46,13 @@ export default class DropDownMenu extends Component<propsI, stateI> {
         }
     `
     return (
-        <DropdownMenuContain 
-        $paramx={this.props.positionParams.x} 
-        $paramy={this.props.positionParams.y} 
-        $showFlag={this.props.showFlag || this.state.menuFlag}
-        onMouseEnter={this.showMenuFlag}
-        onMouseLeave={this.closeMenuFlag}>
-            <DropdownBody>
-                {
-                    Array.isArray(this.props.innerContext) && this.props.innerContext.map((ele, index) => {
-                        return (<DropdownSingleItem key={index} onClick={() => this.props.handleChildJump(ele.url)}>{ele.label}</DropdownSingleItem>)
-                    })
-                }
-            </DropdownBody>
-        </DropdownMenuContain>
+        <DropdownBody>
+            {
+                Array.isArray(this.props.innerContext) && this.props.innerContext.map((ele, index) => {
+                    return (<DropdownSingleItem key={index} onClick={() => this.props.handleChildJump(ele.url)}>{ele.label}</DropdownSingleItem>)
+                })
+            }
+        </DropdownBody>
       )
     // return (<div> 
     //   {JSON.stringify(this.props.innerContext)}
